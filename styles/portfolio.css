@@ -320,10 +320,12 @@ body {
 }
 
 .gallery-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding: 4rem 3rem;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    align-items: start;
+    gap: 1.5rem;
+    padding: 2.5rem 3rem;
+    height: 100vh;
 }
 
 .projects-title {
@@ -337,10 +339,19 @@ body {
     display: flex;
     gap: 2rem;
     overflow-x: auto;
-    padding: 1rem;
+    padding: 0.75rem;
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-color) rgba(0,0,0,0.05);
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth), filter var(--transition-smooth);
+    will-change: opacity, transform, filter;
+}
+
+.projects-scroll.switching {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+    pointer-events: none;
 }
 
 .projects-scroll::-webkit-scrollbar {
@@ -358,8 +369,8 @@ body {
 }
 
 .project-card-mini {
-    min-width: 380px;
-    height: 260px;
+    min-width: 360px;
+    height: 230px;
     border-radius: var(--radius-md);
     background: white;
     position: relative;
@@ -368,6 +379,9 @@ body {
     border: 2px solid transparent;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    animation: cardEnter 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: var(--card-delay, 0ms);
+    will-change: transform, opacity;
 }
 
 .project-card-mini img {
@@ -418,18 +432,31 @@ body {
     background: linear-gradient(to top, rgba(176, 38, 255, 0.8) 0%, transparent 60%);
 }
 
+@keyframes cardEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.97);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 .project-details {
     background: white;
     border-radius: var(--radius-lg);
-    padding: 3rem;
+    padding: 2.5rem;
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 3rem;
+    gap: 2.5rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     opacity: 0;
     transform: translateY(30px) scale(0.95);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 .project-details.visible {
@@ -443,7 +470,7 @@ body {
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     height: 100%;
-    min-height: 350px;
+    min-height: 300px;
     opacity: 0;
     transform: translateX(-20px);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
@@ -645,7 +672,9 @@ body {
     }
 
     .gallery-container {
-        padding: 3rem 2rem;
+        padding: 2rem 2rem;
+        gap: 1.25rem;
+        height: 100vh;
     }
 
     .projects-title {
@@ -655,6 +684,31 @@ body {
     .project-card-mini {
         min-width: 320px;
         height: 220px;
+    }
+}
+
+@media (max-height: 850px) and (min-width: 769px) {
+    .gallery-container {
+        padding: 2rem 2.5rem;
+        gap: 1.25rem;
+        height: 100vh;
+    }
+
+    .projects-scroll {
+        padding: 0.5rem;
+    }
+
+    .project-card-mini {
+        min-width: 340px;
+        height: 210px;
+    }
+
+    .project-details {
+        padding: 2rem;
+    }
+
+    .details-image {
+        min-height: 260px;
     }
 }
 
@@ -711,6 +765,10 @@ body {
 
     .gallery-container {
         padding: 2rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        height: auto;
     }
 
     .projects-title {
@@ -721,6 +779,8 @@ body {
         grid-template-columns: 1fr;
         padding: 2rem;
         gap: 2rem;
+        overflow: visible;
+        min-height: auto;
     }
 
     .details-content h2 {

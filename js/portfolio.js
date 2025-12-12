@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const projectsUrl = 'projects.json';
+    const YEAR_CHANGE_DELAY = 240;
     let allProjects = [];
     let currentYear = null;
+    let yearChangeTimeout;
 
     const timelineContainer = document.querySelector('.timeline');
     const projectsListContainer = document.getElementById('projects-list');
@@ -37,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function selectYear(year) {
         currentYear = year;
+        clearTimeout(yearChangeTimeout);
 
         document.querySelectorAll('.year-item').forEach(el => {
             const isActive = parseInt(el.dataset.year) === year;
@@ -45,11 +48,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Плавно скрываем текущие детали
         projectDetailsContainer.classList.remove('visible');
+        projectsListContainer.classList.add('switching');
 
         // Ждем завершения анимации скрытия перед сменой контента
-        setTimeout(() => {
+        yearChangeTimeout = setTimeout(() => {
             const yearProjects = allProjects.filter(p => p.year === year);
             renderProjectsList(yearProjects);
+
+            requestAnimationFrame(() => {
+                projectsListContainer.classList.remove('switching');
+            });
 
             // Показываем пустое состояние только если нет проектов
             if (yearProjects.length === 0) {
@@ -66,15 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p>Выберите проект, чтобы узнать детали</p>
                     </div>`;
             }
-        }, 300); // Задержка равна времени анимации скрытия
+        }, YEAR_CHANGE_DELAY); // Задержка равна времени анимации скрытия
     }
 
     function renderProjectsList(projects) {
         projectsListContainer.innerHTML = '';
 
-        projects.forEach((project) => {
+        projects.forEach((project, index) => {
             const card = document.createElement('div');
             card.classList.add('project-card-mini');
+            card.style.setProperty('--card-delay', `${index * 60}ms`);
 
             card.innerHTML = `
                 <img src="${project.image}" alt="${project.title}">
