@@ -1,7 +1,7 @@
 const projectsData = [
   {
     "id": 1,
-    "year": 2025,
+    "year": 2027,
     "title": "EcoTracker",
     "description": "Мобильное приложение для отслеживания углеродного следа с элементами геймификации. Помогает студентам формировать экологичные привычки через ежедневные челленджи.",
     "image": "https://placehold.co/800x500/f0f0f0/b026ff?text=EcoTracker",
@@ -10,7 +10,7 @@ const projectsData = [
   },
   {
     "id": 2,
-    "year": 2025,
+    "year": 2026,
     "title": "SmartCampus",
     "description": "Интерактивная карта кампуса с расписанием аудиторий в реальном времени. Позволяет находить свободные места для коворкинга и навигацию внутри зданий.",
     "image": "https://placehold.co/800x500/f0f0f0/b026ff?text=SmartCampus",
@@ -19,7 +19,7 @@ const projectsData = [
   },
   {
     "id": 3,
-    "year": 2024,
+    "year": 2025,
     "title": "LibraryBot",
     "description": "Умный Telegram-бот для поиска и бронирования книг в университетской библиотеке. Интегрирован с базой данных университета для проверки наличия.",
     "image": "https://placehold.co/800x500/f0f0f0/b026ff?text=LibraryBot",
