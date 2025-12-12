@@ -46,11 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
             el.classList.toggle('active', isActive);
         });
 
-        // Плавно скрываем текущие детали
         projectDetailsContainer.classList.remove('visible');
         projectsListContainer.classList.add('switching');
 
-        // Ждем завершения анимации скрытия перед сменой контента
         yearChangeTimeout = setTimeout(() => {
             const yearProjects = allProjects.filter(p => p.year === year);
             renderProjectsList(yearProjects);
@@ -59,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 projectsListContainer.classList.remove('switching');
             });
 
-            // Показываем пустое состояние только если нет проектов
             if (yearProjects.length === 0) {
                 projectDetailsContainer.innerHTML = `
                     <div class="empty-state">
@@ -74,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p>Выберите проект, чтобы узнать детали</p>
                     </div>`;
             }
-        }, YEAR_CHANGE_DELAY); // Задержка равна времени анимации скрытия
+        }, YEAR_CHANGE_DELAY); 
     }
 
     function renderProjectsList(projects) {
@@ -98,10 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showProjectDetails(project, activeCard) {
-        // Сначала скрываем текущие детали
         projectDetailsContainer.classList.remove('visible');
 
-        // Убираем активность у всех карточек
         document.querySelectorAll('.project-card-mini').forEach(c => c.classList.remove('active'));
         activeCard.classList.add('active');
 
@@ -111,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </span>
         `).join('');
 
-        // Ждем завершения анимации скрытия перед сменой контента
         setTimeout(() => {
             projectDetailsContainer.innerHTML = `
                 <div class="details-image">
@@ -127,10 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            // Форсируем reflow для корректной анимации
             void projectDetailsContainer.offsetWidth;
 
-            // Показываем новые детали
             requestAnimationFrame(() => {
                 projectDetailsContainer.classList.add('visible');
             });
@@ -138,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth < 900) {
                 projectDetailsContainer.scrollIntoView({ behavior: 'smooth' });
             }
-        }, 300); // Задержка равна времени анимации скрытия
+        }, 300);
     }
 });
 
