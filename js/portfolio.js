@@ -56,12 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderProjectsList(projects) {
         projectsListContainer.innerHTML = '';
-        
-        projects.forEach((project, index) => {
+
+        projects.forEach((project) => {
             const card = document.createElement('div');
             card.classList.add('project-card-mini');
-            card.style.animation = `fadeInUp 0.5s ease-out ${index * 0.1}s forwards`;
-            card.style.opacity = '0';
 
             card.innerHTML = `
                 <img src="${project.image}" alt="${project.title}">
@@ -69,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3>${project.title}</h3>
                 </div>
             `;
-            
+
             card.addEventListener('click', () => showProjectDetails(project, card));
             projectsListContainer.appendChild(card);
         });
