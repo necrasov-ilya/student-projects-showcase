@@ -37,21 +37,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function selectYear(year) {
         currentYear = year;
-        
+
         document.querySelectorAll('.year-item').forEach(el => {
             const isActive = parseInt(el.dataset.year) === year;
             el.classList.toggle('active', isActive);
         });
 
-        const yearProjects = allProjects.filter(p => p.year === year);
-        renderProjectsList(yearProjects);
-        
-        projectDetailsContainer.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-layer-group"></i>
-                <p>Выберите проект, чтобы узнать детали</p>
-            </div>`;
+        // Плавно скрываем текущие детали
         projectDetailsContainer.classList.remove('visible');
+
+        // Ждем завершения анимации скрытия перед сменой контента
+        setTimeout(() => {
+            const yearProjects = allProjects.filter(p => p.year === year);
+            renderProjectsList(yearProjects);
+
+            // Показываем пустое состояние только если нет проектов
+            if (yearProjects.length === 0) {
+                projectDetailsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Нет проектов за этот год</p>
+                    </div>`;
+                projectDetailsContainer.classList.add('visible');
+            } else {
+                projectDetailsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Выберите проект, чтобы узнать детали</p>
+                    </div>`;
+            }
+        }, 300); // Задержка равна времени анимации скрытия
     }
 
     function renderProjectsList(projects) {
@@ -74,6 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showProjectDetails(project, activeCard) {
+        // Сначала скрываем текущие детали
+        projectDetailsContainer.classList.remove('visible');
+
+        // Убираем активность у всех карточек
         document.querySelectorAll('.project-card-mini').forEach(c => c.classList.remove('active'));
         activeCard.classList.add('active');
 
@@ -83,27 +102,34 @@ document.addEventListener('DOMContentLoaded', () => {
             </span>
         `).join('');
 
-        projectDetailsContainer.innerHTML = `
-            <div class="details-image">
-                <img src="${project.image}" alt="${project.title}">
-            </div>
-            <div class="details-content">
-                <h2>${project.title}</h2>
-                <div class="tags">${tagsHtml}</div>
-                <p>${project.description}</p>
-                <a href="${project.link}" class="details-link" target="_blank">
-                    Перейти к проекту <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        `;
+        // Ждем завершения анимации скрытия перед сменой контента
+        setTimeout(() => {
+            projectDetailsContainer.innerHTML = `
+                <div class="details-image">
+                    <img src="${project.image}" alt="${project.title}">
+                </div>
+                <div class="details-content">
+                    <h2>${project.title}</h2>
+                    <div class="tags">${tagsHtml}</div>
+                    <p>${project.description}</p>
+                    <a href="${project.link}" class="details-link" target="_blank">
+                        Перейти к проекту <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            `;
 
-        projectDetailsContainer.classList.remove('visible');
-        void projectDetailsContainer.offsetWidth;
-        projectDetailsContainer.classList.add('visible');
-        
-        if (window.innerWidth < 900) {
-            projectDetailsContainer.scrollIntoView({ behavior: 'smooth' });
-        }
+            // Форсируем reflow для корректной анимации
+            void projectDetailsContainer.offsetWidth;
+
+            // Показываем новые детали
+            requestAnimationFrame(() => {
+                projectDetailsContainer.classList.add('visible');
+            });
+
+            if (window.innerWidth < 900) {
+                projectDetailsContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 300); // Задержка равна времени анимации скрытия
     }
 });
 
