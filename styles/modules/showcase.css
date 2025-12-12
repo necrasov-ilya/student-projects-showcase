@@ -1,0 +1,141 @@
+.showcase {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 3rem 1rem;
+    background: var(--dark-bg);
+    border-right: var(--border-glass);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.timeline::-webkit-scrollbar {
+    display: none;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 100px;
+    bottom: 100px;
+    left: 50%;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--accent-color), transparent);
+    box-shadow: var(--glow-accent-lg);
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+.year-item {
+    position: relative;
+    z-index: 1;
+    padding: 0.8rem 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-bottom: 1.5rem;
+}
+
+.year-item span {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-pill);
+    background: var(--dark-bg);
+    transition: all var(--transition-fast);
+}
+
+.year-item:hover span {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.year-item.active span {
+    background: var(--accent-color);
+    color: var(--white);
+    box-shadow: var(--glow-accent);
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    align-items: start;
+    gap: 1.5rem;
+    padding: 2.5rem 3rem;
+    height: 100vh;
+}
+
+.projects-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.projects-scroll {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    padding: 0.75rem;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) rgba(0, 0, 0, 0.05);
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth), filter var(--transition-smooth);
+}
+
+.projects-scroll.switching {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+.projects-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.projects-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.projects-scroll::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 2px dashed rgba(0, 0, 0, 0.1);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: rgba(176, 38, 255, 0.2);
+}
