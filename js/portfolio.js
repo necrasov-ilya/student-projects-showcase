@@ -106,6 +106,15 @@ document.addEventListener('DOMContentLoaded', () => {
             </span>
         `).join('');
 
+        const teamHtml = project.team && project.team.length > 0 ? `
+            <div class="team-section">
+                <div class="team-label"><i class="fas fa-users"></i> Команда:</div>
+                <div class="team-members">
+                    ${project.team.map(member => `<span class="team-member">${member}</span>`).join('')}
+                </div>
+            </div>
+        ` : '';
+
         setTimeout(() => {
             projectDetailsContainer.innerHTML = `
                 <div class="details-image">
@@ -115,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h2>${project.title}</h2>
                     <div class="tags">${tagsHtml}</div>
                     <p>${project.description}</p>
+                    ${teamHtml}
                     <a href="${project.link}" class="details-link" target="_blank">
                         Перейти к проекту <i class="fas fa-arrow-right"></i>
                     </a>
